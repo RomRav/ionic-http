@@ -12,7 +12,7 @@ export class HomePage {
 
   constructor(private http: HttpClient) {
 
-    let url = "http://randomuser.me/api?results=20";
+    let url = "https://randomuser.me/api?results=20";
 
     let req = this.http.get(url);
 
