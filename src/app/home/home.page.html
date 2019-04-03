@@ -1,12 +1,42 @@
-<ion-header>
+<ion-header class="head">
   <ion-toolbar>
     <ion-title>
       Ionic Blank
     </ion-title>
   </ion-toolbar>
+
+  <ion-list>
+
+    <!--Bouton radio pour selectionner le sexe-->
+    <ion-radio-group [(ngModel)]="genderChoice">
+      <ion-item>
+        <ion-label>masculin:</ion-label>
+        <ion-radio value="male"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>feminin:</ion-label>
+        <ion-radio value="female"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <!--Liste déroulante de choix des pays-->
+    <ion-item>
+      <ion-label>Pays:</ion-label>
+      <ion-select multiple="true" placeholder="Choisir" [(ngModel)]="countryChoice">
+        <ion-select-option *ngFor="let country of countryList" value="{{country.code}}">
+          {{country.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
 </ion-header>
 
 <ion-content>
+  <!--gestion du refresh slot=fixed = -->
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <!--Message et animation du refresh-->
+    <ion-refresher-content refreshingText="Chargement en cours..." refreshinSpinner="bubbles"></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
     <ion-item *ngFor="let user of userList">
       <ion-avatar item-left> <img src="{{user.picture.large}}"> </ion-avatar>

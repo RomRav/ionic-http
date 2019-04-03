@@ -7,9 +7,28 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  public countryList: Array<any> = [
+    { name: "Australie", code: "AU" },
+    { name: "Brésil", code: "BR" },
+    { name: "Canada", code: "CA" },
+    { name: "Chine", code: "CH" },
+    { name: "Allemagne", code: "DE" },
+    { name: "Danemark", code: "DK" },
+    { name: "Espagne", code: "ES" },
+    { name: "Finlande", code: "FI" },
+    { name: "France", code: "FR" },
+    { name: "Grande-Bretagne", code: "GB" },
+    { name: "Irlande", code: "IE" },
+    { name: "Iran", code: "IR" },
+    { name: "Norvège", code: "NO" },
+    { name: "Pays-Bas", code: "NL" },
+    { name: "Nouvelle-Zélande", code: "NZ" },
+    { name: "Turquie", code: "TR" },
+    { name: "Etat-Unis", code: "US" }
+  ]
   public userList: Array<any> = [];
-
+  public countryChoice: Array<string> = ['FR'];
+  public genderChoice: string = "female";
   constructor(private http: HttpClient) {
 
 
@@ -23,8 +42,10 @@ export class HomePage {
     let url = "https://randomuser.me/api";
     let requestParams = new HttpParams()
       .set('results', '20')
-      .set('gender', 'female')
-      .set('nat', 'fr,es,ch');
+      .set('gender', this.genderChoice)
+      //.join(",") joint le contenu du tableau en une chaine de caractére en ajoutant une virgule entre change
+      .set('nat', this.countryChoice.join(","));
+    console.log(requestParams);
     let req = this.http.get(url, { params: requestParams });
     req.subscribe((data: any) => {
       console.log(data);
@@ -42,5 +63,8 @@ export class HomePage {
   //Methode qui appel la methode load data pour rajouter
   public loadMoreData(even) {
     this.loadData(false, even);
+  }
+  public refreshData(even) {
+    this.loadData(true, even);
   }
 }
