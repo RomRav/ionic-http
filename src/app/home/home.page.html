@@ -9,7 +9,15 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let user of userList">
-      <p>{{user.name.title}} {{user.name.first}} {{user.name.last}}</p>
+      <ion-avatar item-left> <img src="{{user.picture.large}}"> </ion-avatar>
+      <p>{{user.name.title}} {{user.name.first}} {{user.name.last}} </p>
     </ion-item>
   </ion-list>
+  <!--Ajout de la fonction de scroll treshold= seuil de déclangement ionInfinite = appel de la methode lorsque l'on
+  depasse le seuil-->
+  <ion-infinite-scroll treshold="10%" (ionInfinite)="loadMoreData($event)">
+    <!--Affichage de message et animation lors du chargement-->
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Veuillez patienter pendant des heures.">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

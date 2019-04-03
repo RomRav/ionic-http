@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,16 +12,35 @@ export class HomePage {
 
   constructor(private http: HttpClient) {
 
-    let url = "https://randomuser.me/api?results=20";
 
-    let req = this.http.get(url);
-
-    req.subscribe(
-      (data: any) => {
-        console.log(data);
-        this.userList = data.results;
-      }
-    )
+    this.loadData(false, null);
   }
 
+
+
+  private loadData(addBeforeContent: boolean, even) {
+
+    let url = "https://randomuser.me/api";
+    let requestParams = new HttpParams()
+      .set('results', '20')
+      .set('gender', 'female')
+      .set('nat', 'fr,es,ch');
+    let req = this.http.get(url, { params: requestParams });
+    req.subscribe((data: any) => {
+      console.log(data);
+
+      if (addBeforeContent) {
+        this.userList = data.results.concat(this.userList);
+      } else {
+        this.userList = this.userList.concat(data.results);
+      }
+      if (even) {
+        even.target.complete();
+      }
+    });
+  }
+  //Methode qui appel la methode load data pour rajouter
+  public loadMoreData(even) {
+    this.loadData(false, even);
+  }
 }
